@@ -1,5 +1,26 @@
 ---
-import Base from '../layouts/Base.astro'; import PhotoLightbox from '../components/PhotoLightbox'; import '../styles/global.css'; import { publishedPhotos } from '../lib/content'; const photos = await publishedPhotos();
+import Base from '../layouts/Base.astro';
+import PhotoLightbox from '../components/PhotoLightbox';
+import '../styles/global.css';
+import { publishedPhotos } from '../lib/content';
+
+const photos = await publishedPhotos();
 ---
-<Base title="Photography — Christo Esser"><div class="container"><section class="section"><span class="eyebrow">Photography</span><h1 style="font-size:clamp(3rem,9vw,8rem);letter-spacing:-.08em;line-height:.9">Light, place,<br />and timing.</h1><p class="muted" style="max-width:470px;line-height:1.7">A living collection of images. Albums and descriptions are managed privately and will grow over time.</p></section><section class="section">{photos.length ? <div class="gallery"><PhotoLightbox client:load photos={photos} /></div> : <p class="muted">No published photographs yet. Add the first album from the admin dashboard.</p>}</section></div></Base>
-<style>.lightbox-trigger{display:block;border:0;padding:0;width:100%;background:transparent;color:inherit;cursor:zoom-in}.lightbox{position:fixed;inset:0;z-index:10;background:rgba(5,5,6,.96);display:grid;place-items:center;padding:7vw}.lightbox img{max-width:100%;max-height:86vh;object-fit:contain}.lightbox-close{position:absolute;right:24px;top:20px;background:none;border:0;color:#fff;font-size:1rem;cursor:pointer}</style>
+<Base title="Photography — Christo Esser">
+  <div class="container">
+    <section class="section">
+      <span class="eyebrow">ls ./photography</span>
+      <h1 style="font-size:clamp(3rem,9vw,8rem);letter-spacing:-.02em;line-height:.9;margin:18px 0">Light, place,<br />and timing.</h1>
+      <p class="muted" style="max-width:480px;line-height:1.7">A living collection of images. Albums and descriptions are managed privately and will grow over time.</p>
+    </section>
+    <section class="section">
+      {photos.length ? (
+        <div class="gallery">
+          <PhotoLightbox client:load photos={photos} />
+        </div>
+      ) : (
+        <p class="muted">No published photographs yet. Add the first album from the admin dashboard.</p>
+      )}
+    </section>
+  </div>
+</Base>

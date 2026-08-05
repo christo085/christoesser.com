@@ -1,4 +1,32 @@
 ---
-import Base from '../layouts/Base.astro'; import '../styles/global.css';
+import Base from '../layouts/Base.astro';
+import '../styles/global.css';
 ---
-<Base title="About — Christo Esser"><div class="container"><section class="section"><span class="eyebrow">About</span><h1 style="font-size:clamp(3rem,9vw,8rem);letter-spacing:-.08em;line-height:.9">Curious by<br />default.</h1><div style="max-width:650px;font-size:1.2rem;line-height:1.7;color:#b5b5b8"><p>I'm Christo — a creative technologist interested in the space between image-making and engineering.</p><p>I photograph places and people, make films, write software, build physical things, and self-host the systems that keep them moving.</p></div></section><section class="section"><div class="grid"><div class="card"><span class="tag">Interests</span><h2>Photography<br />Film<br />Making</h2></div><div class="card"><span class="tag">Learning</span><h2>Systems<br />Code<br />Craft</h2></div></div></section></div></Base>
+<Base title="About — Christo Esser">
+  <div class="container">
+    <section class="section">
+      <span class="eyebrow">cat ./about.md</span>
+      <h1 style="font-size:clamp(3rem,9vw,8rem);letter-spacing:-.02em;line-height:.9;margin:18px 0">Curious by<br />default.</h1>
+      <div style="max-width:650px;font-size:1.05rem;line-height:1.8;color:#c4c4bf">
+        <p>I'm Christo — a creative technologist interested in the space between image-making and engineering.</p>
+        <p>I photograph places and people, make films, write software, build physical things, and self-host the systems that keep them moving.</p>
+      </div>
+    </section>
+    <section class="section">
+      <dl class="spec-list">
+        <div class="spec-row">
+          <dt>Interests</dt>
+          <dd>Photography, Film, Making</dd>
+        </div>
+        <div class="spec-row">
+          <dt>Learning</dt>
+          <dd>Systems, Code, Craft</dd>
+        </div>
+        <div class="spec-row">
+          <dt>Also</dt>
+          <dd>3D printing, self-hosting, engineering</dd>
+        </div>
+      </dl>
+    </section>
+  </div>
+</Base>

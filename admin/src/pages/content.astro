@@ -1,4 +1,8 @@
 ---
-import Admin from '../layouts/Admin.astro'; import '../styles/admin.css'; import CrudPlaceholder from '../components/CrudPlaceholder';
+import Admin from '../layouts/Admin.astro';
+import '../styles/admin.css';
+import CrudPlaceholder from '../components/CrudPlaceholder';
 ---
-<Admin><CrudPlaceholder kind="content" client:load /></Admin>
+<Admin title="Site content — Admin">
+  <CrudPlaceholder client:load />
+</Admin>

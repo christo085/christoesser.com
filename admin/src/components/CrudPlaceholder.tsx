@@ -1,12 +1,78 @@
-import { useEffect, useState } from 'react'; import { supabase } from '../lib/supabase';
-export default function CrudPlaceholder({ kind }: { kind: 'media' | 'projects' | 'content' }) {
-  const [items, setItems] = useState<any[]>([]); const [title, setTitle] = useState(''); const [file, setFile] = useState<File | null>(null); const table = kind === 'media' ? 'albums' : kind === 'projects' ? 'projects' : 'site_settings';
-  useEffect(() => { supabase.from(table).select('*').order('created_at', { ascending: false }).then(({ data }) => setItems(data ?? [])); }, [table]);
+import { useEffect, useState } from 'react';
+
+type Item = { id: string; title?: string; key?: string; published?: boolean };
+
+export default function CrudPlaceholder() {
+  const [items, setItems] = useState<Item[]>([]);
+  const [title, setTitle] = useState('');
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    fetch('/api/content?admin=1')
+      .then((response) => response.json())
+      .then((data) => setItems(data.albums ?? []));
+  }, []);
+
   async function add() {
-    if (kind === 'media' && file) { const path = `${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, '-')}`; const upload = await supabase.storage.from('portfolio-images').upload(path, file); if (upload.error) return alert(upload.error.message); const { data } = await supabase.from('photos').insert({ title: title || file.name, image_path: path, published: false }).select().single(); if (data) setItems([data, ...items]); setFile(null); setTitle(''); return; }
-    if (!title.trim()) return; const payload = kind === 'content' ? { key: title, value: '' } : kind === 'media' ? { title, slug: title.toLowerCase().replace(/[^a-z0-9]+/g, '-'), published: false } : { title, slug: title.toLowerCase().replace(/[^a-z0-9]+/g, '-'), description: '', category: 'Coding', technologies: [], links: [], published: false }; const { data } = await (supabase.from(table) as any).insert(payload).select().single(); if (data) setItems([data, ...items]); setTitle('');
+    if (!title.trim()) return;
+    setBusy(true);
+    const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const item = { title, slug, description: '', published: false };
+    const response = await fetch('/api/content', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'albums', item }) });
+    if (response.ok) setItems([await response.json(), ...items]);
+    setTitle('');
+    setBusy(false);
   }
-  async function toggle(item: any) { const next = !item.published; const { data } = await supabase.from(kind === 'media' && item.image_path ? 'photos' : table).update({ published: next }).eq('id', item.id).select().single(); if (data) setItems(items.map((current) => current.id === item.id ? data : current)); }
-  async function remove(item: any) { if (!confirm('Delete this item?')) return; const source = kind === 'media' && item.image_path ? 'photos' : table; await supabase.from(source).delete().eq('id', item.id); setItems(items.filter((current) => current.id !== item.id)); }
-  return <div className="shell"><aside className="side"><div className="brand">CE<span>.</span> / CMS</div><nav><a href="/">Overview</a><a className={kind === 'content' ? 'active' : ''} href="/content">Site content</a><a className={kind === 'media' ? 'active' : ''} href="/media">Photography</a><a className={kind === 'projects' ? 'active' : ''} href="/projects">Projects</a></nav></aside><main className="main"><span className="eyebrow">{kind === 'media' ? 'Photography' : kind === 'projects' ? 'Projects' : 'Website content'}</span><h1>Manage {kind === 'media' ? 'albums and photos' : kind}.</h1><div className="panel"><div className="row"><input aria-label="New item title" placeholder={kind === 'media' ? 'Album or photo title' : 'New item title'} value={title} onChange={(e) => setTitle(e.target.value)} />{kind === 'media' && <input aria-label="Photo file" type="file" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />}<button className="primary" onClick={add}>Add</button></div></div><div className="panel">{items.length ? items.map((item) => <div className="row" style={{ justifyContent: 'space-between', padding: '14px 0', borderBottom: '1px solid #2b2b30' }}><span>{item.title ?? item.key}</span><div className="row"><button className="muted" onClick={() => toggle(item)}>{item.published ? 'Unpublish' : 'Publish'}</button><button className="danger" onClick={() => remove(item)}>Delete</button></div></div>) : <div className="empty">Nothing here yet. Start with the field above.</div>}</div></main></div>;
+
+  async function toggle(item: Item) {
+    const response = await fetch('/api/content', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'albums', id: item.id, changes: { published: !item.published } }) });
+    if (response.ok) {
+      const updated = await response.json();
+      setItems(items.map((current) => (current.id === item.id ? updated : current)));
+    }
+  }
+
+  async function remove(item: Item) {
+    if (!confirm('Delete this item?')) return;
+    await fetch('/api/content', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'albums', id: item.id }) });
+    setItems(items.filter((current) => current.id !== item.id));
+  }
+
+  return (
+    <div className="shell">
+      <aside className="side">
+        <div className="brand">CE<span>_</span> / CMS</div>
+        <nav>
+          <a href="/">Overview</a>
+          <a className="active" href="/content">Site content</a>
+          <a href="/media">Photography</a>
+          <a href="/projects">Projects</a>
+        </nav>
+      </aside>
+      <main className="main">
+        <span className="eyebrow">content manager</span>
+        <h1>Manage albums.</h1>
+        <div className="panel">
+          <div className="row">
+            <input aria-label="New album title" placeholder="New album title" value={title} onChange={(event) => setTitle(event.target.value)} />
+            <button className="primary" disabled={busy} onClick={add}>{busy ? 'Saving…' : 'Add'}</button>
+          </div>
+        </div>
+        <div className="panel">
+          {items.length ? items.map((item) => (
+            <div className="row" key={item.id} style={{ justifyContent: 'space-between', padding: '14px 0', borderBottom: '1px solid var(--line)' }}>
+              <span className="row">
+                <span className="tag">{item.published ? 'Published' : 'Draft'}</span>
+                {item.title ?? item.key}
+              </span>
+              <div className="row">
+                <button className="muted" onClick={() => toggle(item)}>{item.published ? 'Unpublish' : 'Publish'}</button>
+                <button className="danger" onClick={() => remove(item)}>Delete</button>
+              </div>
+            </div>
+          )) : <div className="empty">No albums yet. Add one above.</div>}
+        </div>
+      </main>
+    </div>
+  );
 }

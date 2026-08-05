@@ -1,4 +1,36 @@
 ---
-import Base from '../layouts/Base.astro'; import '../styles/global.css'; import { publishedProjects } from '../lib/content'; const projects = await publishedProjects();
+import Base from '../layouts/Base.astro';
+import '../styles/global.css';
+import { publishedProjects } from '../lib/content';
+
+const projects = await publishedProjects();
 ---
-<Base title="Projects — Christo Esser"><div class="container"><section class="section"><span class="eyebrow">Projects</span><h1 style="font-size:clamp(3rem,9vw,8rem);letter-spacing:-.08em;line-height:.9">Ideas into<br />artifacts.</h1></section><section class="section"><div class="grid">{projects.length ? projects.map((project) => <article class="card"><span class="tag">{project.category} · {project.date ?? 'Ongoing'}</span><h2>{project.title}</h2><p class="muted">{project.description}</p><div>{(project.technologies ?? []).map((tech: string) => <span class="tag" style="margin-right:14px">{tech}</span>)}</div></article>) : <p class="muted">No published projects yet. The dashboard is ready for the first one.</p>}</div></section></div></Base>
+<Base title="Projects — Christo Esser">
+  <div class="container">
+    <section class="section">
+      <span class="eyebrow">ls ./projects</span>
+      <h1 style="font-size:clamp(3rem,9vw,8rem);letter-spacing:-.02em;line-height:.9;margin:18px 0">Ideas into<br />artifacts.</h1>
+    </section>
+    <section class="section">
+      {projects.length ? (
+        <div class="grid">
+          {projects.map((project, index) => (
+            <article class="card" style="grid-column:span 12">
+              <span class="card-index">P.{String(index + 1).padStart(2, '0')}</span>
+              <span class="tag">{project.category} &middot; {project.date ?? 'Ongoing'}</span>
+              <h2 style="font-size:1.6rem;margin:16px 0 10px">{project.title}</h2>
+              <p class="muted">{project.description}</p>
+              {(project.technologies ?? []).length > 0 && (
+                <div style="margin-top:14px">
+                  {(project.technologies ?? []).map((tech: string) => <span class="tag">{tech}</span>)}
+                </div>
+              )}
+            </article>
+          ))}
+        </div>
+      ) : (
+        <p class="muted">No published projects yet. The dashboard is ready for the first one.</p>
+      )}
+    </section>
+  </div>
+</Base>

@@ -1,4 +1,8 @@
 ---
-import Admin from '../layouts/Admin.astro'; import '../styles/admin.css'; import CrudPlaceholder from '../components/CrudPlaceholder';
+import Admin from '../layouts/Admin.astro';
+import '../styles/admin.css';
+import MediaLibrary from '../components/MediaLibrary';
 ---
-<Admin><CrudPlaceholder kind="media" client:load /></Admin>
+<Admin title="Photography — Admin">
+  <MediaLibrary client:load />
+</Admin>
