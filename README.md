@@ -13,7 +13,7 @@ supabase/ Database migrations and storage policies
 
 ## Local development
 
-Requirements: Node.js 20+, npm, and a Supabase project.
+Requirements: Node.js 20+ and npm. Supabase is not required for the current public site or temporary admin dashboard.
 
 ```bash
 npm install
@@ -24,11 +24,11 @@ npm run dev:website
 npm run dev:admin
 ```
 
-Apply `supabase/migrations/001_initial.sql` in the Supabase SQL editor. Create the first account in Supabase Auth, enable TOTP MFA, and add the account ID to the `admin_users` table.
+The admin dashboard currently uses temporary password authentication. Set `ADMIN_PASSWORD` in the admin environment before running or deploying it. The password is checked server-side and stored in an HTTP-only session cookie. This is a temporary bridge, not the final identity system.
 
 ## Environment variables
 
-Only the admin app requires `PUBLIC_SUPABASE_URL`, `PUBLIC_SUPABASE_ANON_KEY`, and `PUBLIC_SITE_URL`. The public website has no Supabase dependency and renders without environment variables. Never commit real values or service-role keys.
+The public website requires no environment variables. The temporary admin dashboard requires only the server-side `ADMIN_PASSWORD`. Do not use a shared password as the final production authentication system.
 
 ## Deployment
 
@@ -45,7 +45,7 @@ Keep the domain in Cloudflare and add the Netlify-provided CNAME/verification re
 
 ## Content and storage
 
-The public site reads only published rows from Supabase. The dashboard writes albums, photos, projects, and site settings under Row Level Security. Images are stored in the `portfolio-images` bucket with a stable storage adapter boundary, so an Immich-backed adapter can replace the current provider later without changing gallery components.
+The public site currently reads provider-independent local content and renders without a backend. The temporary dashboard provides placeholder content controls. The retained `supabase/` migration documents the planned future CMS backend, but it is not required to build or deploy either application in this temporary mode.
 
 ## Maintenance
 
