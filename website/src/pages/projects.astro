@@ -1,0 +1,4 @@
+---
+import Base from '../layouts/Base.astro'; import '../styles/global.css'; import { publishedProjects } from '../lib/content'; const projects = await publishedProjects();
+---
+<Base title="Projects — Christo Esser"><div class="container"><section class="section"><span class="eyebrow">Projects</span><h1 style="font-size:clamp(3rem,9vw,8rem);letter-spacing:-.08em;line-height:.9">Ideas into<br />artifacts.</h1></section><section class="section"><div class="grid">{projects.length ? projects.map((project) => <article class="card"><span class="tag">{project.category} · {project.date ?? 'Ongoing'}</span><h2>{project.title}</h2><p class="muted">{project.description}</p><div>{(project.technologies ?? []).map((tech: string) => <span class="tag" style="margin-right:14px">{tech}</span>)}</div></article>) : <p class="muted">No published projects yet. The dashboard is ready for the first one.</p>}</div></section></div></Base>

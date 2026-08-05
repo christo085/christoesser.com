@@ -1,0 +1,5 @@
+---
+const { title = 'Christo Esser — Digital Headquarters', description = 'Photography, filmmaking, technology, and things I build.' } = Astro.props;
+const path = Astro.url.pathname;
+---
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width" /><title>{title}</title><meta name="description" content={description} /><meta property="og:title" content={title} /><meta property="og:description" content={description} /><link rel="icon" href="data:," /></head><body><header class="site-header"><a class="wordmark" href="/">CE<span>.</span></a><nav aria-label="Main navigation">{[['/photography','Photography'],['/projects','Projects'],['/about','About'],['/contact','Contact']].map(([href,label]) => <a class:list={{ active: path === href }} href={href}>{label}</a>)}</nav></header><main><slot /></main><footer><span>Christo Esser</span><span>Photography · Film · Technology</span><a href="mailto:hello@christoesser.com">hello@christoesser.com</a></footer></body></html>
