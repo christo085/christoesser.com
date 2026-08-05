@@ -1,4 +1,15 @@
-import { supabase } from './supabase';
-export async function publishedProjects() { const { data } = await supabase.from('projects').select('*').eq('published', true).order('date', { ascending: false }); return data ?? []; }
-export async function publishedPhotos() { const { data } = await supabase.from('photos').select('*, albums(title, slug)').eq('published', true).order('sort_order'); return data ?? []; }
-export async function settings() { const { data } = await supabase.from('site_settings').select('*'); return Object.fromEntries((data ?? []).map((item) => [item.key, item.value])); }
+import type { Photo, Project } from '@christoesser/shared';
+
+// The public site is intentionally provider-independent. Content can later be
+// generated into this module or loaded from a public API without adding auth or
+// private storage credentials to the visitor-facing application.
+export const photos: Photo[] = [];
+export const projects: Project[] = [];
+
+export function publishedPhotos() {
+  return photos.filter((photo) => photo.published);
+}
+
+export function publishedProjects() {
+  return projects.filter((project) => project.published);
+}
