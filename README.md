@@ -45,7 +45,7 @@ Keep the domain in Cloudflare and add the Netlify-provided CNAME/verification re
 
 ## Content and storage
 
-The public site currently reads provider-independent local content and renders without a backend. The temporary dashboard provides placeholder content controls. The retained `supabase/` migration documents the planned future CMS backend, but it is not required to build or deploy either application in this temporary mode.
+The admin dashboard now stores content and uploaded images in a Netlify Blobs site store named `christo-content`. Set `PUBLIC_CONTENT_API_URL` on the public Netlify site to the admin endpoint, for example `https://admin.christoesser.com/api/content`; the public app reads only published content and still builds without that variable by showing empty states. The retained `supabase/` migration documents an optional future backend and is not required.
 
 ## Maintenance
 
