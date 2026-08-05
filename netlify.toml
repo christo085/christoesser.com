@@ -1,0 +1,16 @@
+# Default configuration for the public site when Netlify uses the repository root.
+# The admin site should set its Netlify Base directory to `admin` and use admin/netlify.toml.
+[build]
+command = "npm run build:website"
+publish = "website/dist"
+
+[build.environment]
+NODE_VERSION = "20"
+
+[[headers]]
+for = "/*"
+[headers.values]
+X-Content-Type-Options = "nosniff"
+X-Frame-Options = "DENY"
+Referrer-Policy = "strict-origin-when-cross-origin"
+Permissions-Policy = "camera=(), microphone=(), geolocation=()"
