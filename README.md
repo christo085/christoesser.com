@@ -28,7 +28,7 @@ Apply `supabase/migrations/001_initial.sql` in the Supabase SQL editor. Create t
 
 ## Environment variables
 
-Both apps require `PUBLIC_SUPABASE_URL` and `PUBLIC_SUPABASE_ANON_KEY`. The admin app also requires `PUBLIC_SITE_URL`. Never commit real values or service-role keys.
+Only the admin app requires `PUBLIC_SUPABASE_URL`, `PUBLIC_SUPABASE_ANON_KEY`, and `PUBLIC_SITE_URL`. The public website has no Supabase dependency and renders without environment variables. Never commit real values or service-role keys.
 
 ## Deployment
 
