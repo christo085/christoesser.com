@@ -1,9 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
 import '../styles/global.css';
-import { publishedProjects, publishedPhotos } from '../lib/content';
+import { publishedProjects, publishedPhotos, siteText } from '../lib/content';
 
-const [projects, photos] = await Promise.all([publishedProjects(), publishedPhotos()]);
+const [projects, photos, heroSubhead] = await Promise.all([
+  publishedProjects(),
+  publishedPhotos(),
+  siteText('hero_subhead', 'Photographer, filmmaker, and builder of software and hardware.'),
+]);
 ---
 <Base>
   <div class="container">
@@ -11,7 +15,7 @@ const [projects, photos] = await Promise.all([publishedProjects(), publishedPhot
       <div>
         <span class="eyebrow">whoami</span>
         <h1>Hi, I'm<br />Christo.</h1>
-        <p>A personal headquarters for the things I photograph, film, design, engineer, and build.</p>
+        <p>{heroSubhead}</p>
         <a class="button" href="/projects">Explore the work &rarr;</a>
       </div>
       <div>

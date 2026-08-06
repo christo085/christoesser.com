@@ -2,16 +2,19 @@
 import Base from '../layouts/Base.astro';
 import PhotoLightbox from '../components/PhotoLightbox';
 import '../styles/global.css';
-import { publishedPhotos } from '../lib/content';
+import { publishedPhotos, siteText } from '../lib/content';
 
-const photos = await publishedPhotos();
+const [photos, subhead] = await Promise.all([
+  publishedPhotos(),
+  siteText('photography_subhead', 'A living collection of images. Albums and descriptions are managed privately and will grow over time.'),
+]);
 ---
 <Base title="Photography — Christo Esser">
   <div class="container">
     <section class="section">
       <span class="eyebrow">ls ./photography</span>
       <h1 style="font-size:clamp(3rem,9vw,8rem);letter-spacing:-.02em;line-height:.9;margin:18px 0">Light, place,<br />and timing.</h1>
-      <p class="muted" style="max-width:480px;line-height:1.7">A living collection of images. Albums and descriptions are managed privately and will grow over time.</p>
+      <p class="muted" style="max-width:480px;line-height:1.7">{subhead}</p>
     </section>
     <section class="section">
       {photos.length ? (

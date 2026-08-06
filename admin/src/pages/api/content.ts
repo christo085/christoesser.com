@@ -4,15 +4,45 @@ import { id, now, readContent, writeContent, type ContentState } from '../../lib
 
 const cors = { 'Access-Control-Allow-Origin': import.meta.env.PUBLIC_SITE_URL || '*', 'Access-Control-Allow-Methods': 'GET, POST, PATCH, DELETE, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' };
 const response = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json', ...cors } });
-const publicContent = (content: ContentState, origin: string) => ({ albums: content.albums.filter((item) => item.published), photos: content.photos.filter((item) => item.published).map((item) => ({ ...item, image_url: `${origin}/api/images/${item.id}` })), projects: content.projects.filter((item) => item.published) } );
+
+const publicContent = (content: ContentState, origin: string) => ({
+  albums: content.albums.filter((item) => item.published),
+  photos: content.photos.filter((item) => item.published).map((item) => ({ ...item, image_url: `${origin}/api/images/${item.id}` })),
+  projects: content.projects.filter((item) => item.published).map((item) => ({ ...item, image_url: item.image_path ? `${origin}/api/images/${item.image_path}` : null })),
+  settings: content.settings,
+});
 
 export const OPTIONS: APIRoute = () => new Response(null, { status: 204, headers: cors });
-export const GET: APIRoute = async ({ url, cookies }) => { const content = await readContent(); const admin = await isValidSession(cookies.get('admin_session')?.value); return response(admin && url.searchParams.get('admin') === '1' ? content : publicContent(content, url.origin)); };
-export const POST: APIRoute = async ({ request, cookies }) => { if (!await isValidSession(cookies.get('admin_session')?.value)) return response({ error: 'Unauthorized' }, 401); const body = await request.json(); const content = await readContent(); const type = body.type as keyof ContentState; const item = { ...body.item, id: id(), created_at: now() }; if (!Array.isArray(content[type])) return response({ error: 'Unknown content type' }, 400); (content[type] as unknown[]).unshift(item); await writeContent(content); return response(item, 201); };
+
+export const GET: APIRoute = async ({ url, cookies }) => {
+  const content = await readContent();
+  const admin = await isValidSession(cookies.get('admin_session')?.value);
+  return response(admin && url.searchParams.get('admin') === '1' ? content : publicContent(content, url.origin));
+};
+
+export const POST: APIRoute = async ({ request, cookies }) => {
+  if (!await isValidSession(cookies.get('admin_session')?.value)) return response({ error: 'Unauthorized' }, 401);
+  const body = await request.json();
+  const content = await readContent();
+  const type = body.type as keyof ContentState;
+  if (!Array.isArray(content[type])) return response({ error: 'Unknown content type' }, 400);
+  const item = { ...body.item, id: id(), created_at: now() };
+  (content[type] as unknown[]).unshift(item);
+  await writeContent(content);
+  return response(item, 201);
+};
+
 export const PATCH: APIRoute = async ({ request, cookies }) => {
   if (!await isValidSession(cookies.get('admin_session')?.value)) return response({ error: 'Unauthorized' }, 401);
   const body = await request.json();
   const content = await readContent();
+
+  if (body.type === 'settings' && body.changes && typeof body.changes === 'object') {
+    content.settings = { ...content.settings, ...body.changes };
+    await writeContent(content);
+    return response(content.settings);
+  }
+
   const type = body.type as keyof ContentState;
   if (!Array.isArray(content[type])) return response({ error: 'Unknown content type' }, 400);
 
@@ -34,4 +64,13 @@ export const PATCH: APIRoute = async ({ request, cookies }) => {
   await writeContent(content);
   return response(item);
 };
-export const DELETE: APIRoute = async ({ request, cookies }) => { if (!await isValidSession(cookies.get('admin_session')?.value)) return response({ error: 'Unauthorized' }, 401); const body = await request.json(); const content = await readContent(); const type = body.type as keyof ContentState; content[type] = (content[type] as Array<{ id: string }>).filter((item) => item.id !== body.id) as never; await writeContent(content); return response({ ok: true }); };
+
+export const DELETE: APIRoute = async ({ request, cookies }) => {
+  if (!await isValidSession(cookies.get('admin_session')?.value)) return response({ error: 'Unauthorized' }, 401);
+  const body = await request.json();
+  const content = await readContent();
+  const type = body.type as keyof ContentState;
+  content[type] = (content[type] as Array<{ id: string }>).filter((item) => item.id !== body.id) as never;
+  await writeContent(content);
+  return response({ ok: true });
+};

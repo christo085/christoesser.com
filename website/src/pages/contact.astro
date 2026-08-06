@@ -1,13 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
 import '../styles/global.css';
+import { siteText } from '../lib/content';
+
+const subhead = await siteText('contact_subhead', 'For collaborations, questions, or anything else.');
 ---
 <Base title="Contact — Christo Esser">
   <div class="container">
     <section class="section">
       <span class="eyebrow">mailto</span>
       <h1 style="font-size:clamp(3rem,9vw,8rem);letter-spacing:-.02em;line-height:.9;margin:18px 0">Let's make<br />something.</h1>
-      <p class="muted">For collaborations, ideas, or a good reason to talk about cameras and servers.</p>
+      <p class="muted">{subhead}</p>
       <p><a href="mailto:hello@christoesser.com">hello@christoesser.com &rarr;</a></p>
     </section>
     <section class="section">

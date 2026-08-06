@@ -1,5 +1,5 @@
 ---
-const { title = 'Christo Esser — Digital Headquarters', description = 'Photography, filmmaking, technology, and things I build.' } = Astro.props;
+const { title = 'Christo Esser', description = 'Photography, filmmaking, technology, and things I build.' } = Astro.props;
 const path = Astro.url.pathname;
 const links = [
   ['/photography', 'Photography'],
@@ -18,6 +18,7 @@ const links = [
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <link rel="icon" href="data:," />
+    <noscript><style>.section { opacity: 1 !important; transform: none !important; }</style></noscript>
   </head>
   <body>
     <header class="site-header">
@@ -39,5 +40,20 @@ const links = [
       <span>Photography / Film / Technology</span>
       <a href="mailto:hello@christoesser.com">hello@christoesser.com</a>
     </footer>
+    <script>
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.querySelectorAll('.section').forEach((section) => section.classList.add('is-visible'));
+      } else {
+        const observer = new IntersectionObserver((entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          }
+        }, { threshold: 0.12 });
+        document.querySelectorAll('.section').forEach((section) => observer.observe(section));
+      }
+    </script>
   </body>
 </html>

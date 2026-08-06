@@ -185,6 +185,17 @@ nav a.active .idx { color: var(--accent); }
 .tag::before { content: '['; color: var(--line-strong); }
 .tag::after { content: ']'; color: var(--line-strong); }
 
+.project-card-inner { display: flex; gap: 26px; align-items: flex-start; }
+.project-cover { width: 220px; flex-shrink: 0; aspect-ratio: 4/3; object-fit: cover; border: 1px solid var(--line); background: var(--bg-raised); }
+.project-card-body { flex: 1; min-width: 0; }
+
+.project-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.project-links a {
+  border: 1px solid var(--line-strong); padding: 8px 12px; font-size: .72rem;
+  text-transform: uppercase; letter-spacing: .05em;
+}
+.project-links a:hover { background: var(--accent); color: #0a0a0a; border-color: var(--accent); }
+
 /* Gallery */
 .gallery {
   display: grid;
@@ -243,9 +254,68 @@ input, textarea {
 input:focus, textarea:focus { outline: none; border-color: var(--accent); }
 textarea { min-height: 180px; resize: vertical; }
 
+/* Motion */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes pulse { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes scaleIn { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: scale(1); } }
+
+  .hero > div { opacity: 0; animation: rise .7s ease forwards; }
+  .hero > div:nth-child(1) { animation-delay: .05s; }
+  .hero > div:nth-child(2) { animation-delay: .25s; }
+  .hero-meta-row { opacity: 0; animation: rise .5s ease forwards; }
+  .hero-meta-row:nth-child(1) { animation-delay: .4s; }
+  .hero-meta-row:nth-child(2) { animation-delay: .5s; }
+  .hero-meta-row:nth-child(3) { animation-delay: .6s; }
+  .reticle { animation: spin 90s linear infinite; }
+  .reticle span { animation: pulse 3.2s ease-in-out infinite; }
+  .reticle span:nth-child(2) { animation-delay: .5s; }
+  .reticle span:nth-child(3) { animation-delay: 1s; }
+  .reticle span:nth-child(4) { animation-delay: 1.5s; }
+
+  .section { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+  .section.is-visible { opacity: 1; transform: none; }
+
+  nav[aria-label='Main navigation'] a { position: relative; }
+  nav[aria-label='Main navigation'] a::after {
+    content: ''; position: absolute; left: 0; right: 100%; bottom: -8px; height: 1px;
+    background: var(--accent); transition: right .25s ease;
+  }
+  nav[aria-label='Main navigation'] a:hover::after, nav a.active::after { right: 0; }
+
+  .button {
+    position: relative; isolation: isolate; overflow: hidden;
+    transition: color .3s ease, border-color .3s ease;
+  }
+  .button::before {
+    content: ''; position: absolute; inset: 0; background: var(--accent);
+    transform: scaleX(0); transform-origin: left; transition: transform .35s cubic-bezier(.65, 0, .35, 1); z-index: -1;
+  }
+  .button:hover { background: transparent; }
+  .button:hover::before { transform: scaleX(1); }
+
+  .card { transition: background-color .25s ease; }
+  .card:hover { background: var(--bg-raised); }
+  .card:hover .card-index { color: var(--accent); transition: color .25s ease; }
+
+  .gallery img { transition: transform .5s ease, filter .5s ease; filter: grayscale(60%); }
+  .gallery figure:hover img { transform: scale(1.045); filter: grayscale(0%); }
+  .gallery .frame-index { transition: color .2s ease, background-color .2s ease; }
+  .gallery figure:hover .frame-index { color: #0a0a0a; background: var(--accent); }
+  .gallery figcaption { transition: border-color .25s ease; }
+  .gallery figure:hover figcaption { border-color: var(--accent); }
+
+  .lightbox { animation: fadeIn .25s ease; }
+  .lightbox img { animation: scaleIn .3s ease; }
+}
+
 @media (max-width: 900px) {
   .hero { grid-template-columns: 1fr; }
   .reticle { justify-self: start; }
+  .project-card-inner { flex-direction: column; }
+  .project-cover { width: 100%; }
 }
 
 @media (max-width: 650px) {

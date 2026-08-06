@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import AdminNav from './AdminNav';
 
 type Counts = { photos: number; projects: number; albums: number };
 
@@ -18,16 +19,9 @@ export default function Dashboard() {
 
   return (
     <div className="shell">
-      <aside className="side">
-        <div className="brand">CE<span>_</span> / CMS</div>
-        <nav>
-          <a className="active" href="/">Overview</a>
-          <a href="/content">Site content</a>
-          <a href="/media">Photography</a>
-          <a href="/projects">Projects</a>
-        </nav>
+      <AdminNav active="/">
         <button className="logout" onClick={logout}>Sign out</button>
-      </aside>
+      </AdminNav>
       <main className="main">
         <span className="eyebrow">control room</span>
         <h1>Good to see you.</h1>

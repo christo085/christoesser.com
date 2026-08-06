@@ -1,15 +1,20 @@
 ---
 import Base from '../layouts/Base.astro';
 import '../styles/global.css';
+import { siteText } from '../lib/content';
+
+const [headline, bio] = await Promise.all([
+  siteText('about_headline', 'Photographer. Engineer.'),
+  siteText('about_bio', "I'm Christo. I photograph places and people, make films, write software, build physical things, and self-host the systems that keep them moving."),
+]);
 ---
 <Base title="About — Christo Esser">
   <div class="container">
     <section class="section">
       <span class="eyebrow">cat ./about.md</span>
-      <h1 style="font-size:clamp(3rem,9vw,8rem);letter-spacing:-.02em;line-height:.9;margin:18px 0">Curious by<br />default.</h1>
+      <h1 style="font-size:clamp(3rem,9vw,8rem);letter-spacing:-.02em;line-height:.9;margin:18px 0">{headline}</h1>
       <div style="max-width:650px;font-size:1.05rem;line-height:1.8;color:#c4c4bf">
-        <p>I'm Christo — a creative technologist interested in the space between image-making and engineering.</p>
-        <p>I photograph places and people, make films, write software, build physical things, and self-host the systems that keep them moving.</p>
+        <p>{bio}</p>
       </div>
     </section>
     <section class="section">

@@ -1,6 +1,6 @@
-# Christo Esser — Digital Headquarters
+# Christo Esser
 
-A dark, cinematic personal portfolio and private CMS for photography, filmmaking, technology, coding, 3D printing, engineering, self-hosting, and creative work.
+A dark, brutalist personal portfolio and private CMS for photography, filmmaking, technology, coding, 3D printing, engineering, self-hosting, and creative work.
 
 ## Structure
 

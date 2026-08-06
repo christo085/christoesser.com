@@ -1,13 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
+import AdminNav from './AdminNav';
 
 type Photo = {
   id: string;
   title: string;
   description: string;
   image_path: string;
+  album_id: string | null;
+  featured: boolean;
   published: boolean;
   created_at: string;
 };
+
+type Album = { id: string; title: string };
 
 function persistPatch(body: Record<string, unknown>) {
   fetch('/api/content', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
@@ -17,6 +22,7 @@ function persistPatch(body: Record<string, unknown>) {
 
 export default function MediaLibrary() {
   const [photos, setPhotos] = useState<Photo[]>([]);
+  const [albums, setAlbums] = useState<Album[]>([]);
   const [dragOver, setDragOver] = useState(false);
   const [uploading, setUploading] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -24,7 +30,7 @@ export default function MediaLibrary() {
   useEffect(() => {
     fetch('/api/content?admin=1')
       .then((response) => response.json())
-      .then((data) => setPhotos(data.photos ?? []));
+      .then((data) => { setPhotos(data.photos ?? []); setAlbums(data.albums ?? []); });
   }, []);
 
   async function uploadFiles(files: FileList | File[]) {
@@ -62,15 +68,18 @@ export default function MediaLibrary() {
     reorder(next);
   }
 
+  function saveChanges(photo: Photo, changes: Partial<Photo>) {
+    setPhotos((current) => current.map((item) => (item.id === photo.id ? { ...item, ...changes } : item)));
+    persistPatch({ type: 'photos', id: photo.id, changes });
+  }
+
   function toggle(photo: Photo) {
-    setPhotos((current) => current.map((item) => (item.id === photo.id ? { ...item, published: !item.published } : item)));
-    persistPatch({ type: 'photos', id: photo.id, changes: { published: !photo.published } });
+    saveChanges(photo, { published: !photo.published });
   }
 
   function saveField(photo: Photo, field: 'title' | 'description', value: string) {
     if (value === photo[field]) return;
-    setPhotos((current) => current.map((item) => (item.id === photo.id ? { ...item, [field]: value } : item)));
-    persistPatch({ type: 'photos', id: photo.id, changes: { [field]: value } });
+    saveChanges(photo, { [field]: value });
   }
 
   async function remove(photo: Photo) {
@@ -81,15 +90,7 @@ export default function MediaLibrary() {
 
   return (
     <div className="shell">
-      <aside className="side">
-        <div className="brand">CE<span>_</span> / CMS</div>
-        <nav>
-          <a href="/">Overview</a>
-          <a href="/content">Site content</a>
-          <a className="active" href="/media">Photography</a>
-          <a href="/projects">Projects</a>
-        </nav>
-      </aside>
+      <AdminNav active="/media" />
       <main className="main">
         <span className="eyebrow">content manager</span>
         <h1>Manage photos.</h1>
@@ -135,6 +136,14 @@ export default function MediaLibrary() {
                     placeholder="Caption / description"
                     onBlur={(event) => saveField(photo, 'description', event.target.value)}
                   />
+                  <select value={photo.album_id ?? ''} onChange={(event) => saveChanges(photo, { album_id: event.target.value || null })}>
+                    <option value="">No album</option>
+                    {albums.map((album) => <option key={album.id} value={album.id}>{album.title}</option>)}
+                  </select>
+                  <label className="checkbox-field">
+                    <input type="checkbox" checked={photo.featured} onChange={(event) => saveChanges(photo, { featured: event.target.checked })} />
+                    Featured
+                  </label>
                   <div className="media-actions">
                     <div className="row">
                       <button className="icon-btn" disabled={index === 0} onClick={() => move(index, -1)}>&uarr;</button>

@@ -9,13 +9,23 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   const file = form.get('file');
   if (!(file instanceof File)) return new Response('Image file required', { status: 400 });
 
-  const photoId = id();
-  const path = `images/${photoId}`;
+  const imageId = id();
+  const path = `images/${imageId}`;
   await store.set(path, await file.arrayBuffer(), { metadata: { contentType: file.type, filename: file.name } });
+
+  if (form.get('target') === 'project') {
+    const projectId = String(form.get('projectId') || '');
+    const content = await readContent();
+    const project = content.projects.find((entry) => entry.id === projectId);
+    if (!project) return new Response('Project not found', { status: 404 });
+    project.image_path = imageId;
+    await writeContent(content);
+    return new Response(JSON.stringify(project), { status: 200, headers: { 'Content-Type': 'application/json' } });
+  }
 
   const content = await readContent();
   const item = {
-    id: photoId,
+    id: imageId,
     album_id: null,
     title: String(form.get('title') || file.name),
     description: '',

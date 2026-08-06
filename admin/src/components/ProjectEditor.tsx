@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { projectCategories } from '@christoesser/shared';
+import AdminNav from './AdminNav';
 
 type ProjectLink = { label: string; url: string };
 type Project = {
@@ -9,6 +10,7 @@ type Project = {
   description: string;
   technologies: string[];
   links: ProjectLink[];
+  image_path: string | null;
   date: string | null;
   category: string;
   featured: boolean;
@@ -36,7 +38,7 @@ export default function ProjectEditor() {
     if (!title.trim()) return;
     setBusy(true);
     const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-    const item = { title, slug, description: '', technologies: [], links: [], published: false, featured: false, category: projectCategories[0], date: null };
+    const item = { title, slug, description: '', technologies: [], links: [], image_path: null, published: false, featured: false, category: projectCategories[0], date: null };
     const response = await fetch('/api/content', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'projects', item }) });
     if (response.ok) {
       const created = await response.json();
@@ -72,6 +74,18 @@ export default function ProjectEditor() {
     saveField(project.id, { published: !project.published });
   }
 
+  async function uploadCover(project: Project, file: File) {
+    const form = new FormData();
+    form.set('file', file);
+    form.set('target', 'project');
+    form.set('projectId', project.id);
+    const response = await fetch('/api/upload', { method: 'POST', body: form });
+    if (response.ok) {
+      const updated = await response.json();
+      setProjects((current) => current.map((item) => (item.id === project.id ? updated : item)));
+    }
+  }
+
   async function remove(project: Project) {
     if (!confirm('Delete this project?')) return;
     await fetch('/api/content', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'projects', id: project.id }) });
@@ -80,15 +94,7 @@ export default function ProjectEditor() {
 
   return (
     <div className="shell">
-      <aside className="side">
-        <div className="brand">CE<span>_</span> / CMS</div>
-        <nav>
-          <a href="/">Overview</a>
-          <a href="/content">Site content</a>
-          <a href="/media">Photography</a>
-          <a className="active" href="/projects">Projects</a>
-        </nav>
-      </aside>
+      <AdminNav active="/projects" />
       <main className="main">
         <span className="eyebrow">content manager</span>
         <h1>Manage projects.</h1>
@@ -104,6 +110,21 @@ export default function ProjectEditor() {
           <div className="project-list">
             {projects.map((project) => (
               <div className="project-item" key={project.id}>
+                <div className="row" style={{ gap: 14 }}>
+                  {project.image_path && (
+                    <img src={`/api/images/${project.image_path}`} alt="" style={{ width: 96, height: 64, objectFit: 'cover', border: '1px solid var(--line)' }} />
+                  )}
+                  <label className="muted-btn" style={{ cursor: 'pointer' }}>
+                    {project.image_path ? 'Replace cover image' : 'Add cover image'}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      style={{ display: 'none' }}
+                      onChange={(event) => { const file = event.target.files?.[0]; if (file) uploadCover(project, file); event.target.value = ''; }}
+                    />
+                  </label>
+                </div>
+
                 <div className="project-fields">
                   <label className="field">
                     Title
