@@ -1,5 +1,4 @@
 # Default configuration for the public site when Netlify uses the repository root.
-# The admin site should set its Netlify Base directory to `admin` and use admin/netlify.toml.
 [build]
 command = "npm run build:website"
 publish = "website/dist"

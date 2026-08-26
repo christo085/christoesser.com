@@ -1,15 +1,12 @@
 {
   "name": "christoesser-headquarters",
   "private": true,
-  "workspaces": ["website", "admin", "shared"],
+  "workspaces": ["website", "shared"],
   "scripts": {
     "dev:website": "npm --workspace website run dev",
-    "dev:admin": "npm --workspace admin run dev",
-    "build": "npm run build:website && npm run build:admin",
+    "build": "npm run build:website",
     "build:website": "npm --workspace website run build",
-    "build:admin": "npm --workspace admin run build",
-    "check": "npm run check:website && npm run check:admin",
-    "check:website": "npm --workspace website run check",
-    "check:admin": "npm --workspace admin run check"
+    "check": "npm run check:website",
+    "check:website": "npm --workspace website run check"
   }
 }

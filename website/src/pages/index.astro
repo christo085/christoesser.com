@@ -1,78 +1,38 @@
 ---
 import Base from '../layouts/Base.astro';
 import '../styles/global.css';
-import { publishedProjects, publishedPhotos, siteText } from '../lib/content';
+import { publishedProjects, siteText } from '../lib/content';
 
-const [projects, photos, heroSubhead] = await Promise.all([
+const [projects, heroSubhead] = await Promise.all([
   publishedProjects(),
-  publishedPhotos(),
-  siteText('hero_subhead', 'Photographer, filmmaker, and builder of software and hardware.'),
+  siteText('hero_subhead', 'A young developer, designer, and maker based in Edinburgh, Scotland. I work across software, web development, 3D printing, film, and technology.'),
 ]);
 ---
 <Base>
   <div class="container">
     <section class="hero">
       <div>
-        <span class="eyebrow">whoami</span>
-        <h1>Hi, I'm<br />Christo.</h1>
+        <span class="eyebrow">Christo Esser · Edinburgh</span>
+        <h1>I’m Christo Esser</h1>
         <p>{heroSubhead}</p>
-        <a class="button" href="/projects">Explore the work &rarr;</a>
+        <a class="button" href="/projects">See what I’m building <span aria-hidden="true">↗</span></a>
       </div>
       <div>
-        <dl class="hero-meta">
-          <div class="hero-meta-row">
-            <dt>Focus</dt>
-            <dd>Photography / Film / Code / Making</dd>
-          </div>
-          <div class="hero-meta-row">
-            <dt>Build</dt>
-            <dd>Self-hosted, from scratch</dd>
-          </div>
-          <div class="hero-meta-row">
-            <dt>Status</dt>
-            <dd>Portfolio v2026</dd>
-          </div>
-        </dl>
-        <div class="reticle" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+        <p class="hero-note">Web projects, 3D prints, experiments, and work in progress.</p>
       </div>
     </section>
 
     <section class="section">
       <div class="section-heading">
         <div class="section-heading-left">
-          <span class="section-index">01</span>
-          <h2>Selected frames</h2>
-        </div>
-        <a class="section-link" href="/photography">View photography &rarr;</a>
-      </div>
-      {photos.length ? (
-        <div class="gallery">
-          {photos.slice(0, 6).map((photo, index) => (
-            <figure>
-              <span class="frame-index">F.{String(index + 1).padStart(2, '0')}</span>
-              <img src={photo.image_url ?? ''} alt={photo.title ?? 'Photograph by Christo Esser'} loading="lazy" />
-              <figcaption>{photo.title || 'Untitled'}</figcaption>
-            </figure>
-          ))}
-        </div>
-      ) : (
-        <p class="muted">The gallery is being composed. New frames will appear here soon.</p>
-      )}
-    </section>
-
-    <section class="section">
-      <div class="section-heading">
-        <div class="section-heading-left">
-          <span class="section-index">02</span>
-          <h2>Things I build</h2>
+          <h2>Selected projects</h2>
         </div>
         <a class="section-link" href="/projects">All projects &rarr;</a>
       </div>
       {projects.length ? (
         <div class="grid">
-          {projects.slice(0, 4).map((project, index) => (
+          {projects.slice(0, 4).map((project) => (
             <article class="card">
-              <span class="card-index">P.{String(index + 1).padStart(2, '0')}</span>
               <span class="tag">{project.category}</span>
               <h3>{project.title}</h3>
               <p class="muted">{project.description}</p>
@@ -80,8 +40,16 @@ const [projects, photos, heroSubhead] = await Promise.all([
           ))}
         </div>
       ) : (
-        <p class="muted">Projects will be added through the private dashboard.</p>
+        <p class="muted">I’m documenting projects, experiments, and the things I learn while making them.</p>
       )}
+    </section>
+
+    <section class="section callout-section">
+      <div>
+        <span class="eyebrow">Photography</span>
+        <h2>Photos and<br /><em>occasional updates.</em></h2>
+      </div>
+      <a class="button" href="https://whatsapp.com/channel/0029VakbvKzBadmXIrH7yy1M" target="_blank" rel="noopener noreferrer">Photography on WhatsApp ↗</a>
     </section>
   </div>
 </Base>

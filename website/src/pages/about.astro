@@ -4,32 +4,32 @@ import '../styles/global.css';
 import { siteText } from '../lib/content';
 
 const [headline, bio] = await Promise.all([
-  siteText('about_headline', 'Photographer. Engineer.'),
-  siteText('about_bio', "I'm Christo. I photograph places and people, make films, write software, build physical things, and self-host the systems that keep them moving."),
+  siteText('about_headline', 'Developer. Designer. Maker.'),
+  siteText('about_bio', 'I’m Christo Esser, a developer, designer, and maker from Edinburgh, Scotland. I’m passionate about photography and cinematography, which I share on my YouTube channel, as well as 3D printing, engineering, and CAD. I’ve trained and competed in judo for over eight years.'),
 ]);
 ---
 <Base title="About — Christo Esser">
   <div class="container">
     <section class="section">
-      <span class="eyebrow">cat ./about.md</span>
-      <h1 style="font-size:clamp(3rem,9vw,8rem);letter-spacing:-.02em;line-height:.9;margin:18px 0">{headline}</h1>
-      <div style="max-width:650px;font-size:1.05rem;line-height:1.8;color:#c4c4bf">
+      <span class="eyebrow">About</span>
+      <h1 class="page-title">{headline}</h1>
+      <div class="about-copy">
         <p>{bio}</p>
       </div>
     </section>
     <section class="section">
       <dl class="spec-list">
         <div class="spec-row">
-          <dt>Interests</dt>
-          <dd>Photography, Film, Making</dd>
+          <dt>Practice</dt>
+          <dd>Web development, software, design, 3D printing, photography, filmmaking, and technology.</dd>
         </div>
         <div class="spec-row">
-          <dt>Learning</dt>
-          <dd>Systems, Code, Craft</dd>
+          <dt>Approach</dt>
+          <dd>Learning by experimenting, with a focus on useful things that work in the real world.</dd>
         </div>
         <div class="spec-row">
-          <dt>Also</dt>
-          <dd>3D printing, self-hosting, engineering</dd>
+          <dt>Beyond making</dt>
+          <dd>Judo for over eight years — currently a 14th Mon — and competitive speedcubing, including official WCA competitions.</dd>
         </div>
       </dl>
     </section>

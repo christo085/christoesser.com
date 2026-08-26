@@ -1,11 +1,10 @@
 ---
-const { title = 'Christo Esser', description = 'Photography, filmmaking, technology, and things I build.' } = Astro.props;
+const { title = 'Christo Esser', description = 'Christo Esser — developer, designer, and maker in Edinburgh.' } = Astro.props;
 const path = Astro.url.pathname;
 const links = [
-  ['/photography', 'Photography'],
-  ['/projects', 'Projects'],
-  ['/about', 'About'],
-  ['/contact', 'Contact'],
+  { href: 'https://whatsapp.com/channel/0029VakbvKzBadmXIrH7yy1M', label: 'Photography', external: true },
+  { href: '/projects', label: 'Projects', external: false },
+  { href: '/about', label: 'About', external: false },
 ];
 ---
 <!doctype html>
@@ -17,17 +16,17 @@ const links = [
     <meta name="description" content={description} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <link rel="icon" href="data:," />
+    <meta property="og:type" content="website" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <noscript><style>.section { opacity: 1 !important; transform: none !important; }</style></noscript>
   </head>
   <body>
     <header class="site-header">
-      <a class="wordmark" href="/">CE<span class="cursor">_</span></a>
+      <a class="wordmark" href="/">Christo Esser</a>
       <nav aria-label="Main navigation">
-        {links.map(([href, label], index) => (
-          <a class:list={{ active: path === href }} href={href}>
-            <span class="idx">{String(index + 1).padStart(2, '0')}</span>
-            {label}
+        {links.map(({ href, label, external }) => (
+          <a class:list={{ active: path === href }} href={href} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined}>
+            {label}{external && ' ↗'}
           </a>
         ))}
       </nav>
@@ -37,8 +36,8 @@ const links = [
     </main>
     <footer class="site-footer">
       <span>Christo Esser &copy; 2026</span>
-      <span>Photography / Film / Technology</span>
-      <a href="mailto:hello@christoesser.com">hello@christoesser.com</a>
+      <a href="https://whatsapp.com/channel/0029VakbvKzBadmXIrH7yy1M" target="_blank" rel="noopener noreferrer">Photography on WhatsApp ↗</a>
+      <a href="https://www.youtube.com/@christoesser" target="_blank" rel="noopener noreferrer">YouTube ↗</a>
     </footer>
     <script>
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
