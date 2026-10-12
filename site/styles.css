@@ -1,42 +1,39 @@
-* {
-	padding:5px;
-}
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
+
+header {
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 4%;
+    border-bottom: 2px solid #103018;
+}
 body {
-	width:600px;
+	font-family: 'JetBrains Mono', monospace;
+	width:100%;
+	max-width: 1200px;
 	margin: auto;
-	background-color: #080a1c
+    box-sizing: border-box;
+	padding: 0 24px;
+	background-color: #111311;
 }
 h1 {
-	font-family: 'Arial Black', sans-serif; 
-	font-size: 54px; 
+	font-size: clamp(32px, 7vw, 54px);
+	font-weight: 700;
 	text-align: center; 
 	color:#e0dede;
 }
 h2 {
-	font-family: 'Arial Black', sans-serif; 
 	font-size: 24px; 
+	font-weight: 500;
 	text-align: center;
 	color:#e0dede;
 }
 p  {
-	font-family: 'Roboto'; 
 	font-size: 16px; 
+	font-weight: 400;
 	text-align: center; 
 	color: #e0dede;
-}
-ol {
-	font-family: 'Arial Black'; 
-	font-size: 12px; color:DarkBlue; 
-	width: 200px; margin: auto; 
-	color:whitesmoke;
-}
-ul {
-	font-family: 'Arial Black'; 
-	font-size: 12px; color:DarkBlue; 
-	width: 300px; 
-	margin: auto; 
-	color:whitesmoke;
 }
 div {
 	margin: auto;
@@ -59,14 +56,24 @@ a:active {
 	color: #1f1f1f;
 }
 
-.headingstyle{
-	background-color: #42bd61; 
-	width: fit-content; 
-	padding: 0 10px; 
-	margin: auto; 
+.wordmark {
+    font-weight: 700;
 }
 
-.headingstyle h2{
-	color: #0f0f0f
+.navbar {
+    display: flex;
+    gap: 36px;
 }
 
+@media (max-width: 600px) {
+	.navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px;
+    }
+    header {
+    flex-direction: column;
+    gap: 20px;
+    padding: 24px 0;
+}
+}
