@@ -17,6 +17,15 @@ body {
 	padding: 0 24px;
 	background-color: #111311;
 }
+
+footer {
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 4%;
+    border-top: 2px solid #103018;
+}
+
 h1 {
 	font-size: clamp(32px, 7vw, 54px);
 	font-weight: 700;
@@ -58,11 +67,32 @@ a:active {
 
 .wordmark {
     font-weight: 700;
-}
+	}
 
 .navbar {
     display: flex;
     gap: 36px;
+}
+
+.hero {
+    padding-left: 40px;
+}
+
+.main-hero h1 {
+	font-size:100px;
+	text-align: left;
+	max-width: 850px
+}
+
+.hero h1 {
+	font-size:80px;
+	text-align: left;
+	max-width: 850px
+}
+
+.hero p {
+	text-align: left;
+	max-width: 650px
 }
 
 @media (max-width: 600px) {
