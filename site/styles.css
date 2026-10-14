@@ -3,27 +3,27 @@
 
 header {
 	display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 28px 4%;
-    border-bottom: 2px solid #103018;
+	justify-content: space-between;
+	align-items: center;
+	padding: 28px 4%;
+	border-bottom: 2px solid #103018;
 }
 body {
 	font-family: 'JetBrains Mono', monospace;
 	width:100%;
 	max-width: 1200px;
 	margin: auto;
-    box-sizing: border-box;
+	box-sizing: border-box;
 	padding: 0 24px;
 	background-color: #111311;
 }
 
 footer {
 	display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 28px 4%;
-    border-top: 2px solid #103018;
+	justify-content: space-between;
+	align-items: center;
+	padding: 28px 4%;
+	border-top: 2px solid #103018;
 }
 
 h1 {
@@ -34,6 +34,12 @@ h1 {
 }
 h2 {
 	font-size: 24px; 
+	font-weight: 500;
+	text-align: center;
+	color:#e0dede;
+}
+h3 {
+	font-size: 18px; 
 	font-weight: 500;
 	text-align: center;
 	color:#e0dede;
@@ -50,12 +56,14 @@ ul {
 	text-align: center; 
 	color: #e0dede;
 	list-style-position: inside;
+	padding-left: 0;  
 }
 
 img {
 	display: block; 
 	margin: auto;
 }
+
 
 a:link {
 	color: #42bd61; text-decoration: none;
@@ -70,18 +78,19 @@ a:active {
 	color: #1f1f1f;
 }
 
+
 .wordmark a{
-    font-weight: 700;
-    color:#e0dede;
+	font-weight: 700;
+	color:#e0dede;
 }
 
 .navbar {
-    display: flex;
-    gap: 36px;
+	display: flex;
+	gap: 36px;
 }
 
 .hero {
-    padding: 24px 12px;
+	padding: 24px 12px;
 }
 
 .hero h1 {
@@ -96,11 +105,7 @@ a:active {
 }
 
 .latest-photo {
-    padding: 24px 0;
-}
-
-.image {
-	  border-radius: 10px;
+	padding: 24px 0;
 }
 
 a.current-page {
@@ -108,53 +113,128 @@ a.current-page {
 }
 
 .page-content {
-	    padding: 24px 14px;
+	padding: 24px 14px;
 
 }
 
 .photo-gallery {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); 
-  gap: 20px;                             
-  max-width: 1200px;                    
-  margin: 0 auto;                        
+	display: grid;
+	grid-template-columns: repeat(2, 1fr); 
+	max-width: 1200px;                    
+	margin: 0 auto;                        
 }
 
-.photo-item img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
+.photo img {
+	width: 80%;
+	border-radius: 16px;
 }
 
+.artists {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr); 
+	max-width: 400px;                    
+	margin: 0 auto;                        
+}
+
+
+.artist-logo{
+	margin: 10px;
+}
+
+.artist-logo img{
+	width: 100%;
+	height: auto;
+	border-radius: 50%;
+	border: 2px solid #e0dede;
+
+}
+
+.artist-logo img:hover {
+  border: 2px solid #42bd61;
+}
+
+
+
+.all-projects {
+	padding-bottom: 48px;
+}
+
+.all-projects h2 {
+    margin-bottom: 32px;
+}
+
+.projects-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+	gap: 24px;
+    width: 100%;
+}
+
+.project-card {
+    border: 2px solid #42bd61; 
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+	}
+
+.project-card h2, 
+.project-card h3, 
+.project-card p {
+	    margin-top: 0;
+
+}
+
+.project-card h2 {
+	margin-bottom: 6px;
+}
 
 @media (max-width: 600px) {
 	.navbar {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 16px;
-    }
-    header {
-    flex-direction: column;
-    gap: 20px;
-    padding: 24px 0;
-}
-    footer {
-    flex-direction: column;
-    gap: 20px;
-    padding: 24px 0;
-}
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 16px;
+	}
+	header {
+		flex-direction: column;
+		gap: 20px;
+		padding: 24px 0;
+	}
+	footer {
+		flex-direction: column;
+		gap: 20px;
+		padding: 24px 0;
+	}
 
 	.photo-gallery {
- 	 display: grid;
- 	 grid-template-columns: repeat(1, 1fr); 
- 	 gap: 20px;                             
- 	 max-width: 1200px;                    
-  	margin: 0 auto;                        
-}
+		display: grid;
+		grid-template-columns: repeat(1, 1fr); 
+		max-width: 1200px;                    
+		margin: 0 auto;                        
+	}
 
-	.photo-item img {
-  	width: 100%;
- 	height: auto;
- 	border-radius: 8px;
-}
+	.photo img {
+		width: 100%;
+		height: auto;
+		border-radius: 8px;
+	}
+
+	.artists {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr); 
+		max-width: 1200px;                    
+		margin: 20px auto;                        
+	}
+
+	.artist-logo img{
+		width: 70%;
+		height: auto;
+		border-radius: 50%;
+	}
+
+	.artist-logo img:hover {
+		border: 1px solid #42bd61;
+	}
+
+
 }
