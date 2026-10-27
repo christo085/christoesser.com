@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
-
 header {
 	display: flex;
 	justify-content: space-between;
@@ -123,6 +122,12 @@ a.current-page {
 .photo img {
 	width: 80%;
 	border-radius: 16px;
+	outline: 4px solid transparent;
+	transition: outline 0.2s ease-in-out; 
+}
+
+.photo img:hover {
+  	outline: 4px solid #42bd61;
 }
 
 .artists {
@@ -147,6 +152,7 @@ a.current-page {
 
 .artist-logo img:hover {
   border: 2px solid #42bd61;
+  transition: border 0.2s ease-in-out; 
 }
 
 .all-projects {
@@ -203,6 +209,90 @@ a.current-page {
     flex-direction: column;
 	}
 
+.caption-text p {
+	font-size: 14px;
+	color: #828181;
+}
+
+/* contact form */
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 100%;
+}
+
+input {
+  appearance: none;
+}
+
+.contact-form form{
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 30px;
+  border-radius: 12px;
+  border: 2px solid #42bd61;
+}
+
+.contact-text, 
+.contact-message, 
+.contact-button {
+  margin-bottom: 22px;
+}
+
+.contact-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 16px; 
+	font-weight: 400;
+	text-align: left; 
+	color: #e0dede;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 20px;
+  border: 1px solid #42bd61;
+  border-radius: 6px;
+  background-color: transparent;
+  transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
+  color: #e0dede;
+}
+
+.contact-form textarea {
+  resize: vertical;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #e0dede;
+  outline: none;
+}
+
+.contact-button button {
+  width: 100%;
+  padding: 14px;
+  background-color: #42bd61;
+  color: #e0dede;
+  border: none;
+  border-radius: 6px;
+  transition: background-color 0.3s;
+}
+
+.contact-button button:hover {
+  background-color: #e0dede;
+  color: #42bd61;
+}
+
+.hidden-field {
+    display: none;
+}
+
+
+/* mobile optimisation */
 
 @media (max-width: 600px) {
 	.navbar {
@@ -233,6 +323,7 @@ a.current-page {
 		height: auto;
 		border-radius: 8px;
 	}
+
 
 	.artists {
 		display: grid;

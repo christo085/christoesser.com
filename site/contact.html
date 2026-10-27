@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Christo Esser - Contact</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="media/favicon.svg">
+
+</head>
+
+
+    <body>
+
+    <header>
+       <div class="wordmark" >
+        <a href="index.html">Christo Esser</a>
+    </div>
+
+    <nav class="navbar">
+      <a href="photography.html">Photography</a>
+      <a href="projects.html">Projects</a>
+      <a href="about.html">About</a>
+      <a href="contact.html" class="current-page">Contact</a>
+  </nav>
+</header>
+
+    <main>
+    <section class="hero">
+       <h1>Contact Me</h1>
+
+       <p>Fill in this form to contact me!</p>
+   </section>
+
+<section class="contact-form">
+  <div>
+      <form name="contact" method="POST" action="/success" data-netlify="true" netlify-honeypot="bot-field">
+        <p class="hidden-field">
+          <label>Don't fill this out: <input name="bot-field"></label>
+        </p>
+        <article class="contact-text">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="name" required>
+        </article>
+        <article class="contact-text">
+            <label for="email">Your Email</label>
+            <input type="email" id="email" name="email" required>
+        </article>
+        <article class="contact-message">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+        </article>
+        <article class="contact-button">
+        <button type="submit">Send Message</button>
+    </article>
+      </form>
+    </div>
+</section>
+
+
+</main>
+
+
+    <footer>
+    <p>&copy; 2026 Christo Esser</p>
+    <nav class="navbar">
+        <a href="https://whatsapp.com/channel/0029VakbvKzBadmXIrH7yy1M" target="_blank" rel="noopener noreferrer">Photography ↗</a>
+        <a href="https://github.com/christo085" target="_blank" rel="noopener noreferrer">GitHub ↗</a> 
+        <a href="https://www.youtube.com/@christoesser" target="_blank" rel="noopener noreferrer">YouTube ↗</a>     
+  </nav>
+</footer>
+
+</body>
