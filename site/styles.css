@@ -1,11 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
+
+/* colors */
+
+:root {
+	--primary: #111311;
+	--secondary: #103018;
+	--accent: #42bd61;
+	--lighter-accent: #89d69c;
+
+	--text-main: #e0dede;
+	--text-muted: #828181;
+
+
+}
+
 header {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	padding: 28px 4%;
-	border-bottom: 2px solid #103018;
+	border-bottom: 2px solid var(--secondary);
 }
 body {
 	font-family: 'JetBrains Mono', monospace;
@@ -14,7 +29,7 @@ body {
 	margin: auto;
 	box-sizing: border-box;
 	padding: 0 24px;
-	background-color: #111311;
+	background-color: var(--primary);
 }
 
 footer {
@@ -22,38 +37,38 @@ footer {
 	justify-content: space-between;
 	align-items: center;
 	padding: 28px 4%;
-	border-top: 2px solid #103018;
+	border-top: 2px solid var(--secondary);
 }
 
 h1 {
 	font-size: clamp(32px, 7vw, 54px);
 	font-weight: 700;
-	text-align: center; 
-	color:#e0dede;
+	text-align: left; 
+	color:var(--text-main);
 }
 h2 {
 	font-size: 24px; 
 	font-weight: 500;
-	text-align: center;
-	color:#e0dede;
+	text-align: left;
+	color:var(--text-main);
 }
 h3 {
 	font-size: 18px; 
 	font-weight: 500;
-	text-align: center;
-	color:#e0dede;
+	text-align: left;
+	color:var(--text-main);
 }
 p  {
 	font-size: 16px; 
 	font-weight: 400;
-	text-align: center; 
-	color: #e0dede;
+	text-align: left; 
+	color: var(--text-main);
 }
 ul {
 	font-size: 16px; 
 	font-weight: 400;
-	text-align: center; 
-	color: #e0dede;
+	text-align: left; 
+	color: var(--text-main);
 	list-style-position: inside;
 	padding-left: 0;  
 }
@@ -65,10 +80,11 @@ img {
 
 
 a:link {
-	color: #42bd61; text-decoration: none;
+	color: var(--accent); 
+	text-decoration: none;
 } 
 a:visited {
-	color: #42bd61;
+	color: var(--accent); 
 }
 a:hover {
 	color: #266e37;
@@ -76,11 +92,20 @@ a:hover {
 a:active {
 	color: #1f1f1f;
 }
+a.current-page {
+	color: var(--lighter-accent);
+}
 
+.center-text p, 
+.center-text h1, 
+.center-text h2,
+.center-text h3{
+	text-align: center;
+}
 
 .wordmark a{
 	font-weight: 700;
-	color:#e0dede;
+	color:var(--text-main);
 }
 
 .navbar {
@@ -107,10 +132,27 @@ a:active {
 	padding: 24px 0;
 }
 
-a.current-page {
-	color: #89d69c;
+.caption-text p {
+	font-size: 14px;
+	color: var(--text-muted);
+	text-align: center;
 }
 
+#photography-info {
+  	border: 2px solid var(--accent); 
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    max-width: 700px;
+    margin: 32px auto;
+}
+
+.photo-caption {
+	font-size: 14px;
+	color: var(--text-muted);
+	text-align: center;
+}
 
 .photo-gallery {
 	display: grid;
@@ -127,7 +169,7 @@ a.current-page {
 }
 
 .photo img:hover {
-  	outline: 4px solid #42bd61;
+  	outline: 4px solid 	var(--accent); 
 }
 
 .artists {
@@ -146,12 +188,13 @@ a.current-page {
 	width: 100%;
 	height: auto;
 	border-radius: 50%;
-	border: 2px solid #e0dede;
+	border: 2px solid var(--text-main);
 
 }
 
 .artist-logo img:hover {
-  border: 2px solid #42bd61;
+  border: 2px solid ;
+  color:var(--accent); 
   transition: border 0.2s ease-in-out; 
 }
 
@@ -171,7 +214,7 @@ a.current-page {
 }
 
 .project-card {
-    border: 2px solid #42bd61; 
+    border: 2px solid var(--accent); 
     border-radius: 16px;
     padding: 24px;
     display: flex;
@@ -202,17 +245,14 @@ a.current-page {
 }
 
 .about-card {
-    border: 2px solid #42bd61; 
+    border: 2px solid;
+    color: var(--accent);
     border-radius: 16px;
     padding: 24px;
     display: flex;
     flex-direction: column;
-	}
-
-.caption-text p {
-	font-size: 14px;
-	color: #828181;
 }
+
 
 /* contact form */
 button,
@@ -232,7 +272,9 @@ input {
   margin: 20px auto;
   padding: 30px;
   border-radius: 12px;
-  border: 2px solid #42bd61;
+  border: 2px solid;	
+  color: var(--accent); 
+;
 }
 
 .contact-text, 
@@ -247,19 +289,19 @@ input {
   font-size: 16px; 
 	font-weight: 400;
 	text-align: left; 
-	color: #e0dede;
+	color: var(--text-main);
 }
 
 .contact-form input,
 .contact-form textarea {
   width: 100%;
   padding: 20px;
-  border: 1px solid #42bd61;
+  border: 1px solid var(--accent);
   border-radius: 6px;
   background-color: transparent;
   transition: all 0.2s ease-in-out;
   box-sizing: border-box;
-  color: #e0dede;
+  color: var(--text-main);
 }
 
 .contact-form textarea {
@@ -268,26 +310,26 @@ input {
 
 .contact-form input:focus,
 .contact-form textarea:focus {
-  border-color: #e0dede;
+  border-color: var(--text-main);
   outline: none;
 }
 
 .contact-button button {
   width: 100%;
   padding: 14px;
-  background-color: #42bd61;
-  color: #e0dede;
+  background-color: var(--accent);
+  color: var(--primary);
   border: none;
   border-radius: 6px;
   transition: background-color 0.3s;
 }
 
 .contact-button button:hover {
-  background-color: #e0dede;
-  color: #42bd61;
+  background-color: var(--text-main);
+  color: var(--primary);
 }
 
-.hidden-field {
+.honeypot {
     display: none;
 }
 
@@ -339,7 +381,7 @@ input {
 	}
 
 	.artist-logo img:hover {
-		border: 1px solid #42bd61;
+		border: 1px solid var(--accent);
 	}
 
 
